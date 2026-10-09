@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Content Security Policy. Only this site's own files may load or run. No third-party
+       scripts, fonts, images or connections, no inline scripts except the one fixed line
+       below (identified by its hash), no plugins, no forms, and no <base> tricks.
+       If you add something that loads from elsewhere, it must be added here on purpose. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-riitXBKGtl5y5ccA7GF6ccqJuwEVP5tm8j0ff/fbw9U='; worker-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- capture page_title %}{{ page.title }}{% if paginator and paginator.page > 1 %} (page {{ paginator.page }}){% endif %}{% endcapture %}
+  {%- if page.title == nil or page.url == '/' %}{% assign full_title = site.name %}{% else %}{% capture full_title %}{{ page_title | strip }} | {{ site.name }}{% endcapture %}{% endif %}
+  <script>document.documentElement.className += " js";</script>
+  <title>{{ full_title | escape }}</title>
+  {%- if page.description %}{% assign desc = page.description %}{% elsif page.excerpt and page.excerpt != empty and page.layout == 'post' %}{% assign desc = page.excerpt | strip_html | strip_newlines | truncate: 160 %}{% else %}{% assign desc = site.description %}{% endif %}
+  <meta name="description" content="{{ desc | strip | escape }}">
+  <meta name="theme-color" content="#E4E6DB">
+  <meta property="og:site_name" content="{{ site.name | escape }}">
+  <meta property="og:title" content="{{ full_title | escape }}">
+  <meta property="og:description" content="{{ desc | strip | escape }}">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='3' fill='%23A63A2C'/%3E%3Ctext x='16' y='22' font-size='14' text-anchor='middle' fill='%23F3F2E8' font-family='serif'%3E{{ site.initials | escape | uri_escape }}%3C/text%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
+</head>
+{%- assign nav_index = 0 %}
+{%- for link in site.data.navigation %}{% if link.group == page.group %}{% assign nav_index = forloop.index %}{% endif %}{% endfor %}
+{%- if page.landscape_x != nil %}{% assign landscape_x = page.landscape_x %}{% else %}{% assign landscape_x = nav_index | times: site.landscape.stride %}{% endif %}
+<body class="layout-{{ page.layout | escape }}">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div id="landscape" aria-hidden="true"></div>
+  <script id="landscape-config" type="application/json">
+    {
+      "seed": {{ site.landscape.seed | jsonify | replace: "<", "\u003c" }},
+      "scroll": {{ site.landscape.scroll | default: 0.45 | jsonify }},
+      "drift": {{ site.landscape.drift | default: 0 | jsonify }},
+      "structures": {% if site.landscape.structures == false %}false{% else %}true{% endif %},
+      "worker": {{ '/assets/js/shanshui/landscape-worker.js' | relative_url | jsonify | replace: "<", "\u003c" }},
+      "prefetchTo": {% if site.landscape.prefetch %}{{ site.data.navigation.size | plus: 1 | times: site.landscape.stride | plus: 1400 }}{% else %}0{% endif %}
+    }
+  </script>
+
+  {% include header.html %}
+
+  <main id="main" tabindex="-1">
+    <div id="page" data-group="{{ page.group | escape }}" data-landscape-x="{{ landscape_x | plus: 0 }}" data-title="{{ full_title | escape }}">
+{{ content }}
+    </div>
+  </main>
+
+  {% include footer.html %}
+
+  <div id="announcer" class="sr-only" role="status" aria-live="polite"></div>
+  <script src="{{ '/assets/js/landscape.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/site.js' | relative_url }}" defer></script>
+</body>
+</html>

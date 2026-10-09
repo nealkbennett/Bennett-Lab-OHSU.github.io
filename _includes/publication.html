@@ -1,0 +1,18 @@
+{%- comment -%}One paper. Usage: {% include publication.html p=pub %}{%- endcomment -%}
+{%- assign p = include.p %}
+<li class="pub">
+  <p class="pub-title">
+    {%- if p.doi %}<a href="https://doi.org/{{ p.doi | uri_escape | escape }}" rel="noopener noreferrer">{{ p.title | escape }}</a>
+    {%- elsif p.url %}{% include link.html url=p.url text=p.title %}
+    {%- else %}{{ p.title | escape }}{% endif -%}
+  </p>
+  <p class="pub-authors">{{ p.authors | escape | markdownify | remove: "<p>" | remove: "</p>" | strip }}</p>
+  <p class="pub-venue"><em>{{ p.journal | escape }}</em>, {{ p.pub_date | date: "%B %Y" }}</p>
+  {%- capture pub_links %}
+    {%- if p.pdf %}{% include link.html url=p.pdf text="PDF" %}{% endif %}
+    {%- for l in p.links %}{% include link.html url=l.url text=l.name %}{% endfor %}
+  {%- endcapture %}
+  {%- if pub_links contains "<a" %}
+  <p class="links">{{ pub_links }}</p>
+  {%- endif %}
+</li>

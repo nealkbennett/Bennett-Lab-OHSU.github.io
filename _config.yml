@@ -1,0 +1,55 @@
+# ---------------------------------------------------------------------------
+# Site settings. Edit this file first.
+# ---------------------------------------------------------------------------
+name: "Example Lab"
+initials: "EL"                       # two letters, shown on the red seal
+tagline: "We study how small things come together."
+description: "The Example Lab studies how small things come together, at Example University."
+institution: "Department of Molecular Studies, Example University"
+# Write addresses as "name [at] domain". The site never prints a real "@" into its pages,
+# which keeps most address-harvesting robots from reading it.
+email: "lab [at] example.edu"
+address: "123 University Way, Room 456, Example City"
+
+# Project pages on GitHub (https://you.github.io/repo) need baseurl: "/repo".
+# A user site (https://you.github.io) or custom domain leaves it empty.
+url: ""
+baseurl: ""
+
+# ---------------------------------------------------------------------------
+# The landscape.
+# ---------------------------------------------------------------------------
+landscape:
+  seed: "stillwater"   # any word or phrase makes a different, repeatable painting
+  scroll: 0.45              # how far the painting slides per pixel scrolled
+  stride: 800               # how far apart each top-level page starts along the scroll
+  structures: false         # false = mountains, water, rocks and trees only. true adds pagodas, houses, pylons, boats and people
+  drift: 4                  # slow idle drift in units/second (0 turns it off)
+  prefetch: true            # quietly draw scenery for the other pages in the background
+
+# ---------------------------------------------------------------------------
+# Plumbing. You normally don't need to touch anything below.
+# ---------------------------------------------------------------------------
+permalink: pretty
+markdown: kramdown
+paginate: 5
+paginate_path: "/news/page:num/"
+plugins: [jekyll-paginate, jekyll-sitemap]
+
+collections:
+  members:
+    output: false
+  publications:
+    output: false
+
+defaults:
+  - scope: { path: "", type: "posts" }
+    values: { layout: post, group: news }
+
+exclude:
+  - _dev/
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/

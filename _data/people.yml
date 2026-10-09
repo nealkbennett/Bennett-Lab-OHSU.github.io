@@ -1,0 +1,7 @@
+# The order and names of the groups on the People page.
+# A member's `category` (in _members/their-file.md) must match one of these.
+- Principal investigator
+- Postdoctoral researchers
+- Graduate students
+- Staff
+- Undergraduates

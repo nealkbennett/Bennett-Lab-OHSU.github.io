@@ -1,0 +1,7 @@
+{%- comment -%}One news entry. Usage: {% include news_item.html post=post %}{%- endcomment -%}
+{%- assign news_level = include.level | default: 2 -%}
+<article class="news-item">
+  <p class="byline"><time datetime="{{ include.post.date | date_to_xmlschema }}">{{ include.post.date | date: "%-d %B %Y" }}</time></p>
+  <h{{ news_level }}><a href="{{ include.post.url | relative_url }}">{{ include.post.title | escape }}</a></h{{ news_level }}>
+  <p>{{ include.post.excerpt | strip_html | strip_newlines | truncatewords: 38 | escape }}</p>
+</article>

@@ -1,0 +1,12 @@
+{%- comment -%}
+  Shows an email address without ever writing it out in the page source.
+  Store addresses as "name [at] domain" (in _config.yml or a member's front matter).
+  Usage: {% include email.html address=site.email %}
+         {% include email.html address=m.email label="Email" %}
+  Visitors without JavaScript see "name [at] domain". With JavaScript the text
+  becomes a mailto link built in the browser (see assets/js/site.js).
+{%- endcomment -%}
+{%- assign email_parts = include.address | split: " [at] " -%}
+{%- if email_parts.size == 2 -%}
+<span class="email" data-user="{{ email_parts[0] | strip | escape }}" data-domain="{{ email_parts[1] | strip | escape }}">{% if include.label %}{{ include.label | escape }}{% else %}{{ email_parts[0] | strip | escape }} [at] {{ email_parts[1] | strip | escape }}{% endif %}</span>
+{%- endif -%}

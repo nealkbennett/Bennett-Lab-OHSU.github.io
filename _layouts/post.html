@@ -1,0 +1,10 @@
+---
+layout: default
+---
+<article class="slab slab-left">
+  <p class="byline"><time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%-d %B %Y" }}</time>{% if page.author %} &middot; {{ page.author | escape }}{% endif %}</p>
+  <h1>{{ page.title | escape }}</h1>
+{{ content }}
+  {% if page.tags.size > 0 %}<p class="tags">{% for tag in page.tags %}<span class="tag">{{ tag | escape }}</span>{% endfor %}</p>{% endif %}
+  <p class="back"><a href="{{ '/news/' | relative_url }}">All news</a></p>
+</article>

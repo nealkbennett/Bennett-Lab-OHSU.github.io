@@ -1,0 +1,12 @@
+{%- comment -%}
+  An outside link from content someone typed into a data file. It is only
+  drawn when the address starts with https:// or http://, so a mistake or a
+  malicious edit such as "javascript:..." can never become a clickable link.
+  Usage: {% include link.html url=m.website text="Website" %}
+{%- endcomment -%}
+{%- assign link_url = include.url | strip -%}
+{%- assign link_head = link_url | slice: 0, 8 -%}
+{%- assign link_head7 = link_url | slice: 0, 7 -%}
+{%- if link_head == "https://" or link_head7 == "http://" -%}
+<a href="{{ link_url | escape }}" rel="noopener noreferrer">{{ include.text | escape }}</a>
+{%- endif -%}

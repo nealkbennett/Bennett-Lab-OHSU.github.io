@@ -1,0 +1,27 @@
+{%- comment -%}One person. Usage: {% include member.html m=member %}{%- endcomment -%}
+{%- assign m = include.m %}
+{%- assign short = m.name | split: "," | first %}
+{%- assign parts = short | split: " " %}
+{%- if m.initials %}{% assign initials = m.initials %}{% else %}{% capture initials %}{{ parts.first | slice: 0 }}{{ parts.last | slice: 0 }}{% endcapture %}{% endif %}
+<li class="member">
+  <div class="portrait">
+    {%- if m.image %}
+    <img src="{{ m.image | relative_url | escape }}" alt="Portrait of {{ short | escape }}" width="96" height="96" loading="lazy">
+    {%- else %}
+    <span class="seal seal-lg" aria-hidden="true"><span>{{ initials | escape }}</span></span>
+    {%- endif %}
+  </div>
+  <div class="member-body">
+    <h3>{{ m.name | escape }}</h3>
+    <p class="role">{{ m.position | escape }}</p>
+    {{ m.content | markdownify }}
+    {%- capture link_items %}
+      {%- if m.email %}{% include email.html address=m.email label="Email" %}{% endif %}
+      {%- if m.website %}{% include link.html url=m.website text="Website" %}{% endif %}
+      {%- if m.scholar %}<a href="https://scholar.google.com/citations?user={{ m.scholar | uri_escape | escape }}" rel="noopener noreferrer">Google Scholar</a>{% endif %}
+      {%- if m.orcid %}<a href="https://orcid.org/{{ m.orcid | uri_escape | escape }}" rel="noopener noreferrer">ORCID</a>{% endif %}
+      {%- if m.github %}<a href="https://github.com/{{ m.github | uri_escape | escape }}" rel="noopener noreferrer">GitHub</a>{% endif %}
+    {%- endcapture %}
+    {%- if link_items contains "<a" or link_items contains "<span" %}<p class="links">{{ link_items }}</p>{% endif %}
+  </div>
+</li>

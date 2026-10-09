@@ -1,0 +1,22 @@
+# One entry per item in the top menu, in order.
+# `group` ties a page to its menu item (set `group:` in the page's front matter).
+# Each item also decides where the landscape starts for that page, so moving
+# through the menu travels along the painting.
+- name: Research
+  link: /research/
+  group: research
+- name: Publications
+  link: /publications/
+  group: publications
+- name: People
+  link: /people/
+  group: people
+- name: News
+  link: /news/
+  group: news
+- name: Join
+  link: /join/
+  group: join
+- name: Contact
+  link: /contact/
+  group: contact

@@ -1,0 +1,17 @@
+<footer class="colophon">
+  <p class="colophon-main">
+    {{ site.institution | escape }}<br>
+    {{ site.address | escape }}<br>
+    {% include email.html address=site.email %}
+  </p>
+  <p class="colophon-credit">
+    <strong>Acknowledgements.</strong>
+    The landscape is generated live by
+    <a href="https://github.com/LingDong-/shan-shui-inf" rel="noopener noreferrer">{Shan, Shui}*</a>
+    by Lingdong Huang (MIT license).
+    The site structure is adapted from the
+    <a href="https://github.com/fraser-lab/fraser-lab.github.io" rel="noopener noreferrer">Fraser Lab website</a>
+    (MIT license).
+    Built with help from <a href="https://claude.ai" rel="noopener noreferrer">Claude</a>.
+  </p>
+</footer>

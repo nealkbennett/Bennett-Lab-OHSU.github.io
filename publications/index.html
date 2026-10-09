@@ -1,0 +1,17 @@
+---
+layout: wide
+title: Publications
+group: publications
+---
+{%- assign pubs = site.publications | sort: "pub_date" | reverse %}
+{%- assign years = pubs | group_by_exp: "p", "p.pub_date | date: '%Y'" %}
+{%- for year in years %}
+<section class="pub-year">
+  <h2>{{ year.name | escape }}</h2>
+  <ul class="pub-list">
+    {%- for p in year.items %}
+    {% include publication.html p=p %}
+    {%- endfor %}
+  </ul>
+</section>
+{%- endfor %}

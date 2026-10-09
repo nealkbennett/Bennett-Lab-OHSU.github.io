@@ -1,0 +1,39 @@
+---
+layout: default
+---
+<section class="hero">
+  <h1 class="hero-title">{{ site.name | escape }}</h1>
+  <p class="hero-tagline">{{ site.tagline | escape }}</p>
+  <p class="hero-actions">
+    <a class="button" href="{{ '/research/' | relative_url }}">Our research</a>
+    <a href="{{ '/join/' | relative_url }}">Join the lab</a>
+  </p>
+</section>
+
+<section class="slab slab-left">
+  <h2>About the lab</h2>
+{{ content }}
+</section>
+
+<div class="breath" aria-hidden="true"></div>
+
+<section class="slab slab-right">
+  <h2>Recent news</h2>
+  {%- for post in site.posts limit: 3 %}
+  {% include news_item.html post=post level=3 %}
+  {%- endfor %}
+  <p class="more"><a href="{{ '/news/' | relative_url }}">All news</a></p>
+</section>
+
+<div class="breath" aria-hidden="true"></div>
+
+<section class="slab slab-left">
+  <h2>People</h2>
+  {%- assign current = site.members | where_exp: "m", "m.status != 'alumni'" | sort: "startdate" %}
+  <ul class="name-list">
+    {%- for m in current %}
+    <li><span class="n">{{ m.name | split: "," | first | escape }}</span> <span class="r">{{ m.position | escape }}</span></li>
+    {%- endfor %}
+  </ul>
+  <p class="more"><a href="{{ '/people/' | relative_url }}">Meet the team</a></p>
+</section>

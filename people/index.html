@@ -1,0 +1,34 @@
+---
+layout: wide
+title: People
+group: people
+---
+{%- for category in site.data.people %}
+  {%- assign group_members = site.members | where_exp: "m", "m.status != 'alumni'" | where: "category", category | sort: "startdate" %}
+  {%- if group_members.size > 0 %}
+<section class="member-group">
+  <h2>{{ category | escape }}</h2>
+  <ul class="member-list">
+    {%- for m in group_members %}
+    {% include member.html m=m %}
+    {%- endfor %}
+  </ul>
+</section>
+  {%- endif %}
+{%- endfor %}
+
+{%- assign alumni = site.members | where: "status", "alumni" | sort: "enddate" | reverse %}
+{%- if alumni.size > 0 %}
+<section class="member-group">
+  <h2>Alumni</h2>
+  <ul class="alumni-list">
+    {%- for m in alumni %}
+    <li>
+      <span class="n">{{ m.name | escape }}</span>
+      <span class="r">{{ m.position | escape }}, {{ m.startdate | date: "%Y" }}&ndash;{{ m.enddate | date: "%Y" }}</span>
+      {%- if m.subsequent %}<span class="now">Now: {{ m.subsequent | escape }}</span>{% endif %}
+    </li>
+    {%- endfor %}
+  </ul>
+</section>
+{%- endif %}
